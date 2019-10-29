@@ -1,63 +1,43 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import Contact from './Contact';
 
-class Contact extends Component {
+class Contacts extends Component {
   state = {
-    showContactInfo: false
-  };
-
-  onDeleteClick = id => {
-    //// DELETE CONTACT ////
+    contacts: [
+      {
+        id: 1,
+        name: 'John Doe',
+        email: 'john@gmail.com',
+        phone: '555-555-5555'
+      },
+      {
+        id: 2,
+        name: 'Karen Williams',
+        email: 'karen@gmail.com',
+        phone: '444-444-4444'
+      },
+      {
+        id: 3,
+        name: 'Henry Johnson',
+        email: 'henry@gmail.com',
+        phone: '333-333-333'
+      }
+    ]
   };
 
   render() {
-    const { id, name, email, phone } = this.props.contact;
-    const { showContactInfo } = this.state;
-
+    const { contacts } = this.state;
     return (
-      <div className="card card-body mb-3">
-        <h4>
-          {name}{' '}
-          <i
-            onClick={() =>
-              this.setState({
-                showContactInfo: !this.state.showContactInfo
-              })
-            }
-            className="fas fa-sort-down"
-            style={{ cursor: 'pointer' }}
-          />
-          <i
-            className="fas fa-times"
-            style={{ cursor: 'pointer', float: 'right', color: 'red' }}
-            onClick={this.onDeleteClick.bind(this, id)}
-          />
-          <Link to={`contact/edit/${id}`}>
-            <i
-              className="fas fa-pencil-alt"
-              style={{
-                cursor: 'pointer',
-                float: 'right',
-                color: 'black',
-                marginRight: '1rem'
-              }}
-            />
-          </Link>
-        </h4>
-        {showContactInfo ? (
-          <ul className="list-group">
-            <li className="list-group-item">Email: {email}</li>
-            <li className="list-group-item">Phone: {phone}</li>
-          </ul>
-        ) : null}
-      </div>
+      <React.Fragment>
+        <h1 className="display-4 mb-2">
+          <span className="text-danger">Contact</span> List
+        </h1>
+        {contacts.map(contact => (
+          <Contact key={contact.id} contact={contact} />
+        ))}
+      </React.Fragment>
     );
   }
 }
 
-Contact.propTypes = {
-  contact: PropTypes.object.isRequired
-};
-
-export default Contact;
+export default Contacts;
